@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Filament\Resources\Employees\Pages;
+
+use App\Filament\Resources\Employees\EmployeeResource;
+use Filament\Actions\CreateAction;
+use Filament\Resources\Pages\ListRecords;
+use Filament\Support\Icons\Heroicon;
+
+class ListEmployees extends ListRecords
+{
+    protected static string $resource = EmployeeResource::class;
+
+    protected ?string $heading = 'Data Pegawai';
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            CreateAction::make()
+                ->label('Tambah Pegawai')
+                ->icon(Heroicon::OutlinedPlus),
+        ];
+    }
+}
