@@ -7,10 +7,13 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
+/**
+ * Perintah Artisan untuk membuat akun pengguna administrator baru pada panel Filament.
+ */
 class CreateAdminCommand extends Command
 {
     /**
-     * The name and signature of the console command.
+     * Nama dan tanda tangan (signature) perintah konsol CLI.
      *
      * @var string
      */
@@ -20,14 +23,16 @@ class CreateAdminCommand extends Command
                             {--password= : Kata sandi admin}';
 
     /**
-     * The console command description.
+     * Deskripsi penjelasan mengenai perintah konsol CLI.
      *
      * @var string
      */
     protected $description = 'Membuat akun administrator baru untuk panel Filament';
 
     /**
-     * Execute the console command.
+     * Menjalankan logika eksekusi perintah konsol pembuatan akun administrator baru.
+     *
+     * @return int Kode status keluar perintah konsol (Command::SUCCESS atau Command::FAILURE)
      */
     public function handle(): int
     {

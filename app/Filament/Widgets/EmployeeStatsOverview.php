@@ -7,10 +7,21 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
+/**
+ * Widget ringkasan statistik ikhtisar data pegawai.
+ */
 class EmployeeStatsOverview extends StatsOverviewWidget
 {
+    /**
+     * Urutan penempatan posisi widget pada dashboard Filament.
+     */
     protected static ?int $sort = 1;
 
+    /**
+     * Mengambil dan menghitung data metrik statistik ringkasan pegawai.
+     *
+     * @return array<int, Stat> Daftar kartu statistik ikhtisar pegawai
+     */
     protected function getStats(): array
     {
         $totalPegawai = Employee::count();

@@ -4,10 +4,13 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+/**
+ * Migrasi basis data untuk membuat dan mengelola tabel 'employees'.
+ */
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Menjalankan migrasi untuk membuat tabel 'employees' beserta seluruh definisi kolomnya.
      */
     public function up(): void
     {
@@ -32,7 +35,7 @@ return new class extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Membatalkan proses migrasi dengan menghapus tabel 'employees' apabila tabel ada.
      */
     public function down(): void
     {

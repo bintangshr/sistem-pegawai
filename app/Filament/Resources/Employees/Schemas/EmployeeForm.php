@@ -10,8 +10,17 @@ use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
+/**
+ * Konfigurasi skema formulir input data pegawai untuk operasi pembuatan dan pembaruan.
+ */
 class EmployeeForm
 {
+    /**
+     * Membangun dan mengonfigurasi skema bidang formulir data pegawai.
+     *
+     * @param  Schema  $schema  Objek skema formulir yang akan dikonfigurasi
+     * @return Schema Objek skema yang telah ditambahkan komponen bidang input
+     */
     public static function configure(Schema $schema): Schema
     {
         return $schema

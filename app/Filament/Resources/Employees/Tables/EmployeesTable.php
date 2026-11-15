@@ -2,108 +2,108 @@
 
 namespace App\Filament\Resources\Employees\Tables;
 
-use App\Models\Employee;
+use Carbon\Carbon;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
-use Filament\Notifications\Notification;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
+/**
+ * Konfigurasi tabel data pegawai pada panel Filament.
+ */
 class EmployeesTable
 {
+    /**
+     * Mengonfigurasi tabel pegawai termasuk kolom data, filter, aksi baris, dan aksi massal.
+     *
+     * @param  Table  $table  Objek tabel Filament yang akan dikonfigurasi
+     * @return Table Objek tabel yang telah selesai dikonfigurasi
+     */
     public static function configure(Table $table): Table
     {
         return $table
             ->columns([
-                TextColumn::make('no')
-                    ->label('No.')
-                    ->rowIndex(),
-
                 TextColumn::make('nama_pegawai')
-                    ->label('Nama Pegawai')
+                    ->label('Nama Lengkap')
                     ->searchable()
                     ->sortable()
-                    ->weight('medium'),
+                    ->weight('bold'),
 
                 TextColumn::make('jenis_kelamin')
                     ->label('Jenis Kelamin')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'Laki-laki' => 'info',
-                        'Perempuan' => 'warning',
+                        'Perempuan' => 'danger',
                         default => 'gray',
                     })
-                    ->sortable(),
+                    ->icon(fn (string $state): string => match ($state) {
+                        'Laki-laki' => 'heroicon-m-user',
+                        'Perempuan' => 'heroicon-m-user-circle',
+                        default => 'heroicon-m-user',
+                    }),
 
                 TextColumn::make('pendidikan_terakhir')
-                    ->label('Pendidikan Terakhir')
+                    ->label('Pendidikan')
                     ->badge()
-                    ->sortable(),
+                    ->sortable()
+                    ->color(fn (string $state): string => match ($state) {
+                        'S3', 'S2' => 'success',
+                        'D4/S1' => 'primary',
+                        'D3', 'D2', 'D1' => 'warning',
+                        default => 'gray',
+                    }),
 
                 TextColumn::make('tanggal_lahir')
                     ->label('Tanggal Lahir')
-                    ->date('d/m/Y')
+                    ->date('d M Y')
                     ->sortable(),
 
                 TextColumn::make('usia')
                     ->label('Usia')
-                    ->state(fn (Employee $record): string => $record->usia !== null ? "{$record->usia} tahun" : '-'),
+                    ->state(function ($record): string {
+                        // Menghitung usia dinamis pegawai dalam tahun penuh dari tanggal lahir menggunakan Carbon.
+                        return Carbon::parse($record->tanggal_lahir)->age.' Tahun';
+                    })
+                    ->badge()
+                    ->color('gray'),
             ])
-            ->defaultSort('created_at', 'desc')
             ->filters([
                 SelectFilter::make('jenis_kelamin')
                     ->label('Jenis Kelamin')
-                    ->options(Employee::JENIS_KELAMIN_OPTIONS),
-
+                    ->options([
+                        'Laki-laki' => 'Laki-laki',
+                        'Perempuan' => 'Perempuan',
+                    ]),
                 SelectFilter::make('pendidikan_terakhir')
                     ->label('Pendidikan Terakhir')
-                    ->options(Employee::PENDIDIKAN_OPTIONS),
+                    ->options([
+                        'SD' => 'SD',
+                        'SMP' => 'SMP',
+                        'SMA/SMK' => 'SMA/SMK',
+                        'D1' => 'D1',
+                        'D2' => 'D2',
+                        'D3' => 'D3',
+                        'D4/S1' => 'D4/S1',
+                        'S2' => 'S2',
+                        'S3' => 'S3',
+                    ]),
             ])
             ->recordActions([
-                ViewAction::make()
-                    ->label('Lihat'),
-
-                EditAction::make()
-                    ->label('Ubah'),
-
-                DeleteAction::make()
-                    ->label('Hapus')
-                    ->modalHeading('Hapus Data Pegawai?')
-                    ->modalDescription(fn (Employee $record): string => "Apakah Anda yakin ingin menghapus data pegawai {$record->nama_pegawai}? Tindakan ini tidak dapat dibatalkan.")
-                    ->modalSubmitActionLabel('Ya, Hapus')
-                    ->modalCancelActionLabel('Batal')
-                    ->color('danger')
-                    ->successNotification(
-                        Notification::make()
-                            ->success()
-                            ->title('Data Pegawai Berhasil Dihapus')
-                            ->body('Data pegawai telah dihapus dari sistem.')
-                    ),
+                ViewAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make()
-                        ->label('Hapus yang Dipilih')
-                        ->modalHeading('Hapus Data Pegawai Terpilih?')
-                        ->modalDescription('Apakah Anda yakin ingin menghapus data pegawai yang dipilih? Tindakan ini tidak dapat dibatalkan.')
-                        ->modalSubmitActionLabel('Ya, Hapus')
-                        ->modalCancelActionLabel('Batal')
-                        ->color('danger')
-                        ->successNotification(
-                            Notification::make()
-                                ->success()
-                                ->title('Data Pegawai Berhasil Dihapus')
-                                ->body('Data pegawai terpilih telah dihapus dari sistem.')
-                        ),
+                    DeleteBulkAction::make(),
                 ]),
             ])
-            ->emptyStateHeading('Belum Ada Data Pegawai')
-            ->emptyStateDescription('Silakan klik tombol tambah data pegawai untuk menambahkan pegawai baru.')
-            ->emptyStateIcon(Heroicon::OutlinedUsers);
+            ->striped()
+            ->defaultSort('nama_pegawai', 'asc');
     }
 }

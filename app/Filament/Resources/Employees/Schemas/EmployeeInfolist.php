@@ -8,8 +8,17 @@ use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
+/**
+ * Konfigurasi skema infolist tampilan detail data pegawai.
+ */
 class EmployeeInfolist
 {
+    /**
+     * Membangun dan mengonfigurasi komponen skema infolist untuk menampilkan rincian data pegawai.
+     *
+     * @param  Schema  $schema  Objek skema infolist yang akan dikonfigurasi
+     * @return Schema Objek skema yang telah dikonfigurasi dengan entri informasi pegawai
+     */
     public static function configure(Schema $schema): Schema
     {
         return $schema

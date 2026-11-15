@@ -6,11 +6,14 @@ use App\Models\Employee;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
+/**
+ * Seeder untuk menginisialisasi data awal pegawai dengan variasi demografi.
+ */
 class EmployeeSeeder extends Seeder
 {
     /**
-     * Jalankan seeder data contoh pegawai.
-     * Berisi minimal 30 pegawai fiktif dengan variasi jenis kelamin, pendidikan, dan kelompok usia.
+     * Menjalankan proses pengisian (seeding) contoh data pegawai ke dalam basis data.
+     * Mengisi minimal 30 data pegawai fiktif dengan keragaman jenis kelamin, jenjang pendidikan, dan rentang usia.
      */
     public function run(): void
     {

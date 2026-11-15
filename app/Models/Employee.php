@@ -8,6 +8,19 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Model Employee merepresentasikan entitas data pegawai di dalam sistem.
+ *
+ *
+ * @property int $id Kunci primer data pegawai
+ * @property string $nama_pegawai Nama lengkap pegawai
+ * @property string $jenis_kelamin Jenis kelamin pegawai ('Laki-laki'|'Perempuan')
+ * @property string $pendidikan_terakhir Jenjang pendidikan terakhir pegawai
+ * @property Carbon|null $tanggal_lahir Tanggal lahir pegawai
+ * @property \Illuminate\Support\Carbon|null $created_at Waktu pembuatan data
+ * @property \Illuminate\Support\Carbon|null $updated_at Waktu terakhir data diperbarui
+ * @property-read int|null $usia Usia pegawai dalam tahun yang dihitung secara dinamis dari tanggal lahir
+ */
 class Employee extends Model
 {
     /** @use HasFactory<EmployeeFactory> */
@@ -66,6 +79,8 @@ class Employee extends Model
 
     /**
      * Accessor untuk menghitung usia dalam tahun penuh berdasarkan tanggal lahir.
+     *
+     * @return Attribute<int|null, never>
      */
     protected function usia(): Attribute
     {
@@ -75,6 +90,7 @@ class Employee extends Model
                     return null;
                 }
 
+                // Menghitung usia dinamis dalam tahun penuh menggunakan selisih waktu Carbon dari tanggal lahir ke hari ini.
                 $birthDate = $this->tanggal_lahir instanceof Carbon
                     ? $this->tanggal_lahir
                     : Carbon::parse($this->tanggal_lahir);
