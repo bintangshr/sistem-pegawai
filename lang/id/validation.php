@@ -153,4 +153,3 @@ return [
         'password' => 'Kata Sandi',
     ],
 ];
-
